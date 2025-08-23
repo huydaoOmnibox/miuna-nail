@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     // Remove Replit-specific plugins for Vercel deployment
@@ -20,9 +20,20 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     assetsDir: "assets",
+    sourcemap: mode === "development",
+    minify: mode === "production" ? "terser" : false,
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash].[ext]",
+      },
+    },
+    terserOptions: {
+      compress: {
+        drop_console: mode === "production",
+        drop_debugger: mode === "production",
       },
     },
   },
@@ -32,4 +43,7 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+  define: {
+    __DEV__: mode === "development",
+  },
+}));

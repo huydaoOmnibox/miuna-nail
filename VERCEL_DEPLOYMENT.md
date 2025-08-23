@@ -1,75 +1,102 @@
 # Vercel Deployment Guide
 
-## Prerequisites
-1. Create a [Vercel account](https://vercel.com/signup)
-2. Install Vercel CLI: `npm i -g vercel`
+## 🚀 Production Environment Setup
 
-## Deployment Steps
+### 1. **Environment Variables Configuration**
 
-### Option 1: Deploy via Vercel CLI
-1. Login to Vercel:
-   ```bash
-   vercel login
-   ```
+Set the following environment variables in your Vercel project settings:
 
-2. Deploy from project root:
-   ```bash
-   vercel
-   ```
+#### **Required Variables:**
+```bash
+# Database Configuration
+DATABASE_URL=your_production_database_url_here
 
-3. Follow the prompts:
-   - Set up and deploy? **Y**
-   - Which scope? Select your account
-   - Link to existing project? **N**
-   - Project name: `nails-spa-website` (or your preferred name)
-   - Directory: `.` (current directory)
-   - Override settings? **N**
+# Supabase Configuration
+SUPABASE_URL=your_supabase_url_here
+SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
 
-### Option 2: Deploy via GitHub (Recommended)
-1. Push your code to GitHub
-2. Go to [Vercel Dashboard](https://vercel.com/dashboard)
-3. Click "New Project"
-4. Import your GitHub repository
-5. Configure project settings:
-   - **Framework Preset**: Vite
-   - **Root Directory**: ./
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist/public`
-6. Click "Deploy"
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_here
 
-## Environment Variables
-If you need environment variables:
-1. Go to your project settings in Vercel
-2. Navigate to "Environment Variables"
-3. Add any required variables
+# Session Configuration
+SESSION_SECRET=your_session_secret_here
 
-## Custom Domain (Optional)
-1. Go to your project settings
-2. Navigate to "Domains"
-3. Add your custom domain
+# API Configuration
+API_BASE_URL=https://your-vercel-domain.vercel.app/api
 
-## Project Configuration
+# Security
+CORS_ORIGIN=https://your-vercel-domain.vercel.app
+```
 
-The following files have been configured for Vercel deployment:
+#### **Optional Variables:**
+```bash
+# Analytics and Monitoring
+NEXT_PUBLIC_GA_ID=your_google_analytics_id_here
+NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn_here
+```
 
-- ✅ `vercel.json` - Vercel configuration
-- ✅ `package.json` - Updated build scripts
-- ✅ `vite.config.ts` - Optimized for production
-- ✅ `.vercelignore` - Excludes unnecessary files
-- ✅ `api/` - Serverless API functions
+### 2. **Build Configuration**
 
-## Features Included
-- 🎨 Responsive nail spa website
-- 📱 Mobile-friendly navigation
-- 🖼️ Optimized images
-- ⚡ Fast loading with Vite
-- 🔗 SPA routing with Wouter
-- 🎯 SEO-friendly structure
+The project is configured with:
+- **Build Command**: `npm run vercel-build`
+- **Output Directory**: `dist/public`
+- **Node.js Runtime**: 22.x
+- **Framework**: Vite
 
-## Post-Deployment
-Your website will be available at: `https://your-project-name.vercel.app`
+### 3. **Deployment Steps**
 
-## Troubleshooting
-- If images don't load, check the Unsplash URLs
-- For routing issues, ensure all links use relative paths
-- Check Vercel function logs for API errors 
+1. **Connect Repository**: Link your GitHub repository to Vercel
+2. **Set Environment Variables**: Add all required environment variables
+3. **Deploy**: Vercel will automatically build and deploy on push to main branch
+4. **Verify**: Check that all API endpoints are working correctly
+
+### 4. **Production Optimizations**
+
+- **Asset Caching**: Static assets are cached for 1 year
+- **Security Headers**: XSS protection, content type sniffing prevention
+- **Code Minification**: Production builds are minified and optimized
+- **Console Log Removal**: Development logs are removed in production
+
+### 5. **API Routes**
+
+All API routes are automatically handled by Vercel Functions:
+- **Runtime**: Node.js 22.x
+- **Path**: `/api/*`
+- **Automatic Scaling**: Vercel handles serverless scaling
+
+### 6. **Troubleshooting**
+
+#### **Common Issues:**
+- **Build Failures**: Check environment variables are set correctly
+- **API Errors**: Verify database connection and Supabase configuration
+- **Asset Loading**: Ensure build output directory is correct
+
+#### **Debug Commands:**
+```bash
+# Local production build test
+npm run vercel-build
+
+# Preview production build
+npm run preview
+
+# Check TypeScript compilation
+npm run check
+```
+
+### 7. **Performance Monitoring**
+
+- **Vercel Analytics**: Built-in performance monitoring
+- **Real User Monitoring**: Track actual user experience
+- **Build Analytics**: Monitor build performance and optimization
+
+### 8. **Security Features**
+
+- **HTTPS Only**: All production traffic is encrypted
+- **Security Headers**: XSS protection and content security
+- **CORS Configuration**: Proper cross-origin request handling
+- **Environment Isolation**: Production secrets are properly secured
+
+---
+
+**Note**: Replace all placeholder values with your actual production credentials before deployment. 
