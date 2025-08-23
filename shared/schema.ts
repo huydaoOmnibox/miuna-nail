@@ -1,131 +1,121 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  customerId: integer("customer_id"),
-});
-
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
-
+// User schemas
 export const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
   password: z.string().min(1, "Password is required"),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
-
-// Products table
-export const products = pgTable("products", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  description: text("description"),
-  price: text("price"),
-  category: text("category"),
-  image: text("image"),
-  isActive: boolean("is_active").default(true),
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+export const insertUserSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+  customerId: z.number().optional(),
 });
 
-export const insertProductSchema = createInsertSchema(products).pick({
-  name: true,
-  description: true,
-  price: true,
-  category: true,
-  image: true,
-  isActive: true,
-  sortOrder: true,
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = {
+  id: number;
+  username: string;
+  password: string;
+  customerId?: number;
+};
+
+// Product schemas
+export const insertProductSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().optional(),
+  price: z.string().optional(),
+  category: z.string().optional(),
+  image: z.string().optional(),
+  isActive: z.boolean().default(true),
+  sortOrder: z.number().default(0),
 });
 
 export type InsertProduct = z.infer<typeof insertProductSchema>;
-export type Product = typeof products.$inferSelect;
+export type Product = {
+  id: number;
+  name: string;
+  description?: string;
+  price?: string;
+  category?: string;
+  image?: string;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
-// Gallery table
-export const gallery = pgTable("gallery", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description"),
-  image: text("image").notNull(),
-  category: text("category"),
-  isActive: boolean("is_active").default(true),
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertGallerySchema = createInsertSchema(gallery).pick({
-  title: true,
-  description: true,
-  image: true,
-  category: true,
-  isActive: true,
-  sortOrder: true,
+// Gallery schemas
+export const insertGallerySchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
+  image: z.string().min(1, "Image is required"),
+  category: z.string().optional(),
+  isActive: z.boolean().default(true),
+  sortOrder: z.number().default(0),
 });
 
 export type InsertGallery = z.infer<typeof insertGallerySchema>;
-export type Gallery = typeof gallery.$inferSelect;
+export type Gallery = {
+  id: number;
+  title: string;
+  description?: string;
+  image: string;
+  category?: string;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
-// Pricing table
-export const pricing = pgTable("pricing", {
-  id: serial("id").primaryKey(),
-  serviceName: text("service_name").notNull(),
-  price: text("price").notNull(),
-  category: text("category").notNull(),
-  description: text("description"),
-  duration: text("duration"),
-  isActive: boolean("is_active").default(true),
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertPricingSchema = createInsertSchema(pricing).pick({
-  serviceName: true,
-  price: true,
-  category: true,
-  description: true,
-  duration: true,
-  isActive: true,
-  sortOrder: true,
+// Pricing schemas
+export const insertPricingSchema = z.object({
+  serviceName: z.string().min(1, "Service name is required"),
+  price: z.string().min(1, "Price is required"),
+  category: z.string().min(1, "Category is required"),
+  description: z.string().optional(),
+  duration: z.string().optional(),
+  isActive: z.boolean().default(true),
+  sortOrder: z.number().default(0),
 });
 
 export type InsertPricing = z.infer<typeof insertPricingSchema>;
-export type Pricing = typeof pricing.$inferSelect;
+export type Pricing = {
+  id: number;
+  serviceName: string;
+  price: string;
+  category: string;
+  description?: string;
+  duration?: string;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
-// Home page content table
-export const homeContent = pgTable("home_content", {
-  id: serial("id").primaryKey(),
-  customerId: integer("customer_id"),
-  section: text("section").notNull(), // hero, about, services, etc.
-  title: text("title"),
-  subtitle: text("subtitle"),
-  description: text("description"),
-  content: text("content"), // JSON content as text to match database
-  image: text("image"),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertHomeContentSchema = createInsertSchema(homeContent).pick({
-  customerId: true,
-  section: true,
-  title: true,
-  subtitle: true,
-  description: true,
-  content: true,
-  image: true,
-  isActive: true,
+// Home content schemas
+export const insertHomeContentSchema = z.object({
+  customerId: z.number().default(1),
+  section: z.string().min(1, "Section is required"),
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  description: z.string().optional(),
+  content: z.string().optional(),
+  image: z.string().optional(),
+  isActive: z.boolean().default(true),
 });
 
 export type InsertHomeContent = z.infer<typeof insertHomeContentSchema>;
-export type HomeContent = typeof homeContent.$inferSelect;
+export type HomeContent = {
+  id: number;
+  customerId: number;
+  section: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  content?: string;
+  image?: string;
+  isActive: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+};

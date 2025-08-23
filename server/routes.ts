@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProductSchema, insertGallerySchema, insertPricingSchema, insertHomeContentSchema, loginSchema } from "@shared/schema";
@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET || 
 
 export async function registerRoutes(app: Express): Promise<Server | Express> {
   // Authentication routes
-  app.post("/api/login", async (req, res) => {
+  app.post("/api/login", async (req: Request, res: Response) => {
     try {
       console.log(`${req.method} request to /api/login`);
       console.log('Request body:', req.body);
@@ -88,7 +88,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   });
 
   // Product routes
-  app.get("/api/products", async (req, res) => {
+  app.get("/api/products", async (req: Request, res: Response) => {
     try {
       const products = await storage.getProducts();
       res.json(products);
@@ -97,7 +97,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.get("/api/products/:id", async (req, res) => {
+  app.get("/api/products/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const product = await storage.getProduct(id);
@@ -110,7 +110,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.post("/api/products", async (req, res) => {
+  app.post("/api/products", async (req: Request, res: Response) => {
     try {
       const productData = insertProductSchema.parse(req.body);
       const product = await storage.createProduct(productData);
@@ -120,7 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.put("/api/products/:id", async (req, res) => {
+  app.put("/api/products/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const productData = insertProductSchema.partial().parse(req.body);
@@ -134,7 +134,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.delete("/api/products/:id", async (req, res) => {
+  app.delete("/api/products/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const deleted = await storage.deleteProduct(id);
@@ -148,7 +148,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   });
 
   // Gallery routes
-  app.get("/api/gallery", async (req, res) => {
+  app.get("/api/gallery", async (req: Request, res: Response) => {
     try {
       const gallery = await storage.getGalleryItems();
       res.json(gallery);
@@ -157,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.get("/api/gallery/:id", async (req, res) => {
+  app.get("/api/gallery/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const item = await storage.getGalleryItem(id);
@@ -170,7 +170,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.post("/api/gallery", async (req, res) => {
+  app.post("/api/gallery", async (req: Request, res: Response) => {
     try {
       const itemData = insertGallerySchema.parse(req.body);
       const item = await storage.createGalleryItem(itemData);
@@ -180,7 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.put("/api/gallery/:id", async (req, res) => {
+  app.put("/api/gallery/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const itemData = insertGallerySchema.partial().parse(req.body);
@@ -194,7 +194,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.delete("/api/gallery/:id", async (req, res) => {
+  app.delete("/api/gallery/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const deleted = await storage.deleteGalleryItem(id);
@@ -208,7 +208,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   });
 
   // Pricing routes
-  app.get("/api/pricing", async (req, res) => {
+  app.get("/api/pricing", async (req: Request, res: Response) => {
     try {
       const pricing = await storage.getPricingItems();
       res.json(pricing);
@@ -217,7 +217,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.get("/api/pricing/:id", async (req, res) => {
+  app.get("/api/pricing/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const item = await storage.getPricingItem(id);
@@ -230,7 +230,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.post("/api/pricing", async (req, res) => {
+  app.post("/api/pricing", async (req: Request, res: Response) => {
     try {
       const itemData = insertPricingSchema.parse(req.body);
       const item = await storage.createPricingItem(itemData);
@@ -240,7 +240,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.put("/api/pricing/:id", async (req, res) => {
+  app.put("/api/pricing/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const itemData = insertPricingSchema.partial().parse(req.body);
@@ -254,7 +254,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.delete("/api/pricing/:id", async (req, res) => {
+  app.delete("/api/pricing/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const deleted = await storage.deletePricingItem(id);
@@ -268,7 +268,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   });
 
   // Home content routes
-  app.get("/api/home-content", async (req, res) => {
+  app.get("/api/home-content", async (req: Request, res: Response) => {
     try {
       const content = await storage.getHomeContent();
       res.json(content);
@@ -277,7 +277,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.get("/api/home-content/section/:section", async (req, res) => {
+  app.get("/api/home-content/section/:section", async (req: Request, res: Response) => {
     try {
       const section = req.params.section;
       const content = await storage.getHomeContentBySection(section);
@@ -290,7 +290,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.post("/api/home-content", async (req, res) => {
+  app.post("/api/home-content", async (req: Request, res: Response) => {
     try {
       // Validate and clean content before saving
       let contentData = { ...req.body };
@@ -334,7 +334,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.put("/api/home-content/:id", async (req, res) => {
+  app.put("/api/home-content/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       
@@ -385,7 +385,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
   });
 
-  app.delete("/api/home-content/:id", async (req, res) => {
+  app.delete("/api/home-content/:id", async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const deleted = await storage.deleteHomeContent(id);
@@ -399,7 +399,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   });
 
   // Placeholder image endpoint
-  app.get("/api/placeholder-image", (req, res) => {
+  app.get("/api/placeholder-image", (req: Request, res: Response) => {
     // Simple 1x1 gray pixel as placeholder
     const pixel = Buffer.from([
       137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 1,
@@ -414,12 +414,12 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   });
 
   // Test endpoint to verify route registration
-  app.get("/api/test-proxy", (req, res) => {
+  app.get("/api/test-proxy", (req: Request, res: Response) => {
     res.json({ message: "Proxy endpoint is working!" });
   });
 
   // Google Drive image proxy endpoint
-  app.get("/api/proxy-image", async (req, res) => {
+  app.get("/api/proxy-image", async (req: Request, res: Response) => {
     const { url } = req.query;
     
     if (!url || typeof url !== 'string') {

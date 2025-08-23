@@ -1,22 +1,16 @@
 import { 
-  users, 
   type User, 
   type InsertUser,
-  products,
   type Product,
   type InsertProduct,
-  gallery,
   type Gallery,
   type InsertGallery,
-  pricing,
   type Pricing,
   type InsertPricing,
-  homeContent,
   type HomeContent,
   type InsertHomeContent
 } from "@shared/schema";
-import { db } from "./supabase";
-import { eq, desc, asc } from "drizzle-orm";
+import { supabase } from "./supabase";
 
 // Storage interface remains the same
 export interface IStorage {
@@ -57,28 +51,79 @@ export interface IStorage {
 export class SupabaseStorage implements IStorage {
   // User methods
   async getUser(id: number): Promise<User | undefined> {
-    const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
-    return result[0];
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      return undefined;
+    }
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
-    return result[0];
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('username', username)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching user by username:', error);
+      return undefined;
+    }
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const result = await db.insert(users).values(insertUser).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('users')
+      .insert(insertUser)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   // Product methods
   async getProducts(): Promise<Product[]> {
-    return await db.select().from(products).orderBy(asc(products.sortOrder), asc(products.id));
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('sortOrder', { ascending: true })
+        .order('id', { ascending: true });
+      
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      return [];
+    }
   }
 
   async getProduct(id: number): Promise<Product | undefined> {
-    const result = await db.select().from(products).where(eq(products.id, id)).limit(1);
-    return result[0];
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      return undefined;
+    }
   }
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
@@ -92,8 +137,14 @@ export class SupabaseStorage implements IStorage {
       sortOrder: insertProduct.sortOrder || 0,
     };
     
-    const result = await db.insert(products).values(productData).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('products')
+      .insert(productData)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async updateProduct(id: number, productUpdate: Partial<InsertProduct>): Promise<Product | undefined> {
@@ -109,23 +160,57 @@ export class SupabaseStorage implements IStorage {
     
     updateData.updatedAt = new Date();
     
-    const result = await db.update(products).set(updateData).where(eq(products.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('products')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async deleteProduct(id: number): Promise<boolean> {
-    const result = await db.delete(products).where(eq(products.id, id)).returning();
-    return result.length > 0;
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id);
+    
+    return error === null;
   }
 
   // Gallery methods
   async getGalleryItems(): Promise<Gallery[]> {
-    return await db.select().from(gallery).orderBy(asc(gallery.sortOrder), asc(gallery.id));
+    try {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .order('sortOrder', { ascending: true })
+        .order('id', { ascending: true });
+      
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching gallery items:', error);
+      return [];
+    }
   }
 
   async getGalleryItem(id: number): Promise<Gallery | undefined> {
-    const result = await db.select().from(gallery).where(eq(gallery.id, id)).limit(1);
-    return result[0];
+    try {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching gallery item:', error);
+      return undefined;
+    }
   }
 
   async createGalleryItem(insertGallery: InsertGallery): Promise<Gallery> {
@@ -138,8 +223,14 @@ export class SupabaseStorage implements IStorage {
       sortOrder: insertGallery.sortOrder || 0,
     };
     
-    const result = await db.insert(gallery).values(galleryData).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('gallery')
+      .insert(galleryData)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async updateGalleryItem(id: number, itemUpdate: Partial<InsertGallery>): Promise<Gallery | undefined> {
@@ -154,23 +245,57 @@ export class SupabaseStorage implements IStorage {
     
     updateData.updatedAt = new Date();
     
-    const result = await db.update(gallery).set(updateData).where(eq(gallery.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('gallery')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async deleteGalleryItem(id: number): Promise<boolean> {
-    const result = await db.delete(gallery).where(eq(gallery.id, id)).returning();
-    return result.length > 0;
+    const { error } = await supabase
+      .from('gallery')
+      .delete()
+      .eq('id', id);
+    
+    return error === null;
   }
 
   // Pricing methods
   async getPricingItems(): Promise<Pricing[]> {
-    return await db.select().from(pricing).orderBy(asc(pricing.sortOrder), asc(pricing.id));
+    try {
+      const { data, error } = await supabase
+        .from('pricing')
+        .select('*')
+        .order('sortOrder', { ascending: true })
+        .order('id', { ascending: true });
+      
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching pricing items:', error);
+      return [];
+    }
   }
 
   async getPricingItem(id: number): Promise<Pricing | undefined> {
-    const result = await db.select().from(pricing).where(eq(pricing.id, id)).limit(1);
-    return result[0];
+    try {
+      const { data, error } = await supabase
+        .from('pricing')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching pricing item:', error);
+      return undefined;
+    }
   }
 
   async createPricingItem(insertPricing: InsertPricing): Promise<Pricing> {
@@ -184,8 +309,14 @@ export class SupabaseStorage implements IStorage {
       sortOrder: insertPricing.sortOrder || 0,
     };
     
-    const result = await db.insert(pricing).values(pricingData).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('pricing')
+      .insert(pricingData)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async updatePricingItem(id: number, itemUpdate: Partial<InsertPricing>): Promise<Pricing | undefined> {
@@ -201,23 +332,56 @@ export class SupabaseStorage implements IStorage {
     
     updateData.updatedAt = new Date();
     
-    const result = await db.update(pricing).set(updateData).where(eq(pricing.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('pricing')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async deletePricingItem(id: number): Promise<boolean> {
-    const result = await db.delete(pricing).where(eq(pricing.id, id)).returning();
-    return result.length > 0;
+    const { error } = await supabase
+      .from('pricing')
+      .delete()
+      .eq('id', id);
+    
+    return error === null;
   }
 
   // Home content methods
   async getHomeContent(): Promise<HomeContent[]> {
-    return await db.select().from(homeContent).orderBy(asc(homeContent.id));
+    try {
+      const { data, error } = await supabase
+        .from('homeContent')
+        .select('*')
+        .order('id', { ascending: true });
+      
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching home content:', error);
+      return [];
+    }
   }
 
   async getHomeContentBySection(section: string): Promise<HomeContent | undefined> {
-    const result = await db.select().from(homeContent).where(eq(homeContent.section, section)).limit(1);
-    return result[0];
+    try {
+      const { data, error } = await supabase
+        .from('homeContent')
+        .select('*')
+        .eq('section', section)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching home content by section:', error);
+      return undefined;
+    }
   }
 
   async createHomeContent(insertHomeContent: InsertHomeContent): Promise<HomeContent> {
@@ -232,8 +396,14 @@ export class SupabaseStorage implements IStorage {
       isActive: insertHomeContent.isActive ?? true,
     };
     
-    const result = await db.insert(homeContent).values(contentData).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('homeContent')
+      .insert(contentData)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async updateHomeContent(id: number, contentUpdate: Partial<InsertHomeContent>): Promise<HomeContent | undefined> {
@@ -250,13 +420,24 @@ export class SupabaseStorage implements IStorage {
     
     updateData.updatedAt = new Date();
     
-    const result = await db.update(homeContent).set(updateData).where(eq(homeContent.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from('homeContent')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   }
 
   async deleteHomeContent(id: number): Promise<boolean> {
-    const result = await db.delete(homeContent).where(eq(homeContent.id, id)).returning();
-    return result.length > 0;
+    const { error } = await supabase
+      .from('homeContent')
+      .delete()
+      .eq('id', id);
+    
+    return error === null;
   }
 }
 

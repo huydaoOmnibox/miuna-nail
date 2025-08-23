@@ -1054,7 +1054,7 @@ export const Pricelist = (): JSX.Element => {
                 <div className="space-y-3">
                   <h4 className="text-xl font-semibold text-beige-800 dark:text-beige-200 flex items-center gap-2">
                     <Sparkles className="w-5 h-5" />
-                    {currentLanguage === 'nl' ? "Wat is inbegrepen:" : "What's Included:"}
+                    {currentLanguage === 'de' ? "Wat is inbegrepen:" : "What's Included:"}
                   </h4>
                   <ul className="space-y-2">
                     {t.detailedServices.nailCare.features.map((feature, idx) => (
@@ -1069,7 +1069,7 @@ export const Pricelist = (): JSX.Element => {
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   <Button className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                     <Heart className="w-4 h-4 mr-2" />
-                    {currentLanguage === 'nl' ? 'Boek Deze Service' : 'Book This Service'}
+                    {currentLanguage === 'de' ? 'Boek Deze Service' : 'Book This Service'}
                   </Button>
                 </div>
               </div>
@@ -1113,7 +1113,7 @@ export const Pricelist = (): JSX.Element => {
                 <div className="space-y-3">
                   <h4 className="text-xl font-semibold text-beige-800 dark:text-beige-200 flex items-center gap-2">
                     <Sparkles className="w-5 h-5" />
-                    {currentLanguage === 'nl' ? "Wat is inbegrepen:" : "What's Included:"}
+                    {currentLanguage === 'de' ? "Wat is inbegrepen:" : "What's Included:"}
                   </h4>
                   <ul className="space-y-2">
                     {t.detailedServices.footCare.features.map((feature, idx) => (
@@ -1128,7 +1128,7 @@ export const Pricelist = (): JSX.Element => {
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   <Button className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                     <Heart className="w-4 h-4 mr-2" />
-                    {currentLanguage === 'nl' ? 'Boek Deze Service' : 'Book This Service'}
+                    {currentLanguage === 'de' ? 'Boek Deze Service' : 'Book This Service'}
                   </Button>
                 </div>
               </div>

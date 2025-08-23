@@ -514,7 +514,7 @@ export const Box = (): JSX.Element => {
               </Link>
               
               <Button 
-                onClick={() => window.open('https://wa.me/31628699827', '_blank')}
+                onClick={() => window.open('https://wa.me/', '_blank')}
                 className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold"
               >
                 {t.nav.bookNow}
@@ -612,7 +612,7 @@ export const Box = (): JSX.Element => {
                 </Link>
                 
                 <Button 
-                  onClick={() => window.open('https://wa.me/31628699827', '_blank')}
+                  onClick={() => window.open('https://wa.me/', '_blank')}
                   className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold w-full"
                 >
                   {t.nav.bookNow}
@@ -711,7 +711,7 @@ export const Box = (): JSX.Element => {
           </p>
           
           <Button 
-            onClick={() => window.open('https://wa.me/31628699827', '_blank')}
+            onClick={() => window.open('https://wa.me/', '_blank')}
             size="lg" 
             className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 px-6 sm:px-8 md:px-10 py-2 sm:py-3 text-base sm:text-lg rounded-full animate-fade-in-up animation-delay-400"
           >
@@ -802,7 +802,7 @@ export const Box = (): JSX.Element => {
               </div>
               
                             <Button 
-                onClick={() => window.open('https://wa.me/41764828908', '_blank')}
+                onClick={() => window.open('https://wa.me/', '_blank')}
                 className="mt-8 mb-8 md:mb-0 bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
               >
                 {t.about.contactUs}
@@ -1529,14 +1529,14 @@ export const Box = (): JSX.Element => {
             <h3 className="text-xl font-bold text-beige-800 dark:text-beige-200 mb-2">{t.styledBy.followUs}</h3>
             <div className="flex justify-center gap-4">
               <Button
-                onClick={() => window.open('https://www.instagram.com/nailsofthenetherlands/', '_blank')}
+                onClick={() => window.open('https://www.instagram.com/', '_blank')}
                 className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
                 title="Follow on Instagram"
               >
                 <Instagram className="w-6 h-6" />
               </Button>
               <Button
-                onClick={() => window.open('https://www.facebook.com/share/199bqR8uAA/?mibextid=wwXIfr', '_blank')}
+                onClick={() => window.open('https://www.facebook.com/', '_blank')}
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
                 title="Follow on Facebook"
               >
