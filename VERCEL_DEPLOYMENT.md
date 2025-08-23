@@ -41,7 +41,7 @@ NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn_here
 The project is configured with:
 - **Build Command**: `npm run vercel-build`
 - **Output Directory**: `dist/public`
-- **Node.js Runtime**: 22.x
+- **Node.js Runtime**: 18.x (Vercel compatible)
 - **Framework**: Vite
 
 ### 3. **Deployment Steps**
@@ -60,8 +60,8 @@ The project is configured with:
 
 ### 5. **API Routes**
 
-All API routes are automatically handled by Vercel Functions:
-- **Runtime**: Node.js 22.x
+All API routes are automatically handled by Vercel:
+- **Runtime**: Node.js 18.x (Vercel default)
 - **Path**: `/api/*`
 - **Automatic Scaling**: Vercel handles serverless scaling
 
