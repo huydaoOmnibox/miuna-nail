@@ -13,12 +13,16 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
   app.post("/api/login", async (req, res) => {
     try {
       console.log(`${req.method} request to /api/login`);
+      console.log('Request body:', req.body);
       
       // Validate request body
       const { username, password } = loginSchema.parse(req.body);
+      console.log('Validated credentials for username:', username);
 
       // Find user in database
+      console.log('Attempting to fetch user from database...');
       const user = await storage.getUserByUsername(username);
+      console.log('User found:', user ? 'Yes' : 'No');
       
       if (!user) {
         return res.status(401).json({ 
@@ -48,6 +52,7 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
       // Return success with token and user info (without password)
       const { password: _, ...userWithoutPassword } = user;
       
+      console.log('Login successful for user:', username);
       return res.status(200).json({
         success: true,
         message: 'Login successful',
@@ -55,19 +60,29 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
         user: userWithoutPassword
       });
 
-         } catch (error: any) {
-       console.error('Login API Error:', error);
-       
-       if (error.name === 'ZodError') {
-         return res.status(400).json({ 
-           error: 'Validation error',
-           details: error.errors
-         });
-       }
+    } catch (error: any) {
+      console.error('Login API Error:', error);
+      console.error('Error stack:', error.stack);
+      
+      if (error.name === 'ZodError') {
+        return res.status(400).json({ 
+          error: 'Validation error',
+          details: error.errors
+        });
+      }
+      
+      // Check if it's a database connection error
+      if (error.message && error.message.includes('DATABASE_URL')) {
+        return res.status(500).json({ 
+          error: 'Database configuration error',
+          message: 'Database connection not configured properly'
+        });
+      }
       
       return res.status(500).json({ 
         error: 'Internal server error',
-        message: 'Login failed'
+        message: 'Login failed',
+        details: error.message
       });
     }
   });
