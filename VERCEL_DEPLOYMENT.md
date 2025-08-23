@@ -62,9 +62,9 @@ The project is configured with:
 ### 5. **API Routes**
 
 All API routes are automatically handled by Vercel:
-- **Runtime**: Node.js 18.x (Vercel default)
+- **Runtime**: Node.js 22.x (Vercel default)
 - **Path**: `/api/*`
-- **Automatic Scaling**: Vercel handles serverless scaling
+- **Automatic Scaling**: Vercel handles serverless scaling automatically
 
 ### 6. **Troubleshooting**
 
