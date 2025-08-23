@@ -312,8 +312,8 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
       res.status(201).json(content);
     } catch (error) {
       console.error('Home content creation error:', error);
-      if (error.name === 'ZodError') {
-        return res.status(400).json({ message: "Validation error", details: error.errors });
+      if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {
+        return res.status(400).json({ message: "Validation error", details: (error as any).errors });
       }
       res.status(400).json({ message: "Invalid home content data" });
     }
@@ -363,8 +363,8 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
       res.json(content);
     } catch (error) {
       console.error('Home content update error:', error);
-      if (error.name === 'ZodError') {
-        return res.status(400).json({ message: "Validation error", details: error.errors });
+      if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {
+        return res.status(400).json({ message: "Validation error", details: (error as any).errors });
       }
       res.status(400).json({ message: "Invalid home content data" });
     }

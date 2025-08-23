@@ -30,12 +30,12 @@ export default defineConfig(({ mode }) => ({
         assetFileNames: "assets/[name]-[hash].[ext]",
       },
     },
-    terserOptions: {
+    terserOptions: mode === "production" ? {
       compress: {
-        drop_console: mode === "production",
-        drop_debugger: mode === "production",
+        drop_console: true,
+        drop_debugger: true,
       },
-    },
+    } : undefined,
   },
   server: {
     fs: {

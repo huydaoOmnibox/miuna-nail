@@ -41,8 +41,9 @@ NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn_here
 The project is configured with:
 - **Build Command**: `npm run vercel-build`
 - **Output Directory**: `dist/public`
-- **Node.js Runtime**: 18.x (Vercel compatible)
+- **Node.js Runtime**: 22.x (Vercel compatible)
 - **Framework**: Vite
+- **Minification**: Terser for production builds
 
 ### 3. **Deployment Steps**
 
