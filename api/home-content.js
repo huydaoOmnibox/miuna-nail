@@ -11,8 +11,12 @@ export default async (req, res) => {
   }
 
   try {
-    console.log('Home Content base URL:', req.url);
+    console.log('=== HOME CONTENT BASE API ===');
+    console.log('Request URL:', req.url);
     console.log('Method:', req.method);
+    console.log('Query params:', req.query);
+    console.log('Headers host:', req.headers.host);
+    console.log('============================');
 
     if (req.method === 'GET') {
       // Get all home content items

@@ -15,9 +15,14 @@ export default async (req, res) => {
     const { id } = req.query;
     const numericId = parseInt(id);
     
+    console.log('=== HOME CONTENT [ID] API ===');
+    console.log('Request URL:', req.url);
     console.log('Dynamic route ID:', id);
     console.log('Numeric ID:', numericId);
     console.log('Method:', req.method);
+    console.log('Query params:', req.query);
+    console.log('Headers:', req.headers);
+    console.log('===========================');
 
     if (isNaN(numericId)) {
       return res.status(400).json({ message: "Invalid ID parameter" });

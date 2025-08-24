@@ -20,6 +20,20 @@ export default async (req, res) => {
     return res.status(400).json({ error: 'URL parameter required' });
   }
 
+  // Validate URL format before attempting to fetch
+  try {
+    new URL(url);
+  } catch (urlError) {
+    console.error('Invalid URL provided to proxy-image:', url);
+    return res.status(400).json({ error: 'Invalid URL format' });
+  }
+
+  // Additional validation to ensure it looks like a proper URL
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    console.error('URL must start with http:// or https://:', url);
+    return res.status(400).json({ error: 'URL must start with http:// or https://' });
+  }
+
   try {
     const response = await fetch(url, {
       headers: {
