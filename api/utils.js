@@ -1,83 +1,30 @@
 import 'dotenv/config';
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
-import { sql, asc, desc, eq } from "drizzle-orm";
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { createClient } from '@supabase/supabase-js';
 import { z } from "zod";
 
-// Database connection
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL environment variable is required");
+// Supabase configuration
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl) {
+  throw new Error('SUPABASE_URL environment variable is required');
 }
 
-const client = postgres(connectionString, { 
-  max: 1,
-  ssl: 'require'
-});
-export const db = drizzle(client);
+if (!supabaseServiceKey) {
+  throw new Error('SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY environment variable is required');
+}
 
-// Schema definitions
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  customerId: integer("customer_id"),
-});
+// Create Supabase client
+export const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-
-
-export const products = pgTable("products", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  description: text("description"),
-  price: text("price"),
-  category: text("category"),
-  image: text("image"),
-  isActive: boolean("is_active").default(true),
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const gallery = pgTable("gallery", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description"),
-  image: text("image").notNull(),
-  category: text("category"),
-  isActive: boolean("is_active").default(true),
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const pricing = pgTable("pricing", {
-  id: serial("id").primaryKey(),
-  serviceName: text("service_name").notNull(),
-  price: text("price").notNull(),
-  category: text("category").notNull(),
-  description: text("description"),
-  duration: text("duration"),
-  isActive: boolean("is_active").default(true),
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const homeContent = pgTable("home_content", {
-  id: serial("id").primaryKey(),
-  customerId: integer("customer_id"),
-  section: text("section").notNull(),
-  title: text("title"),
-  subtitle: text("subtitle"),
-  description: text("description"),
-  content: text("content"), // JSON content as text
-  image: text("image"),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+// Table names for Supabase
+const TABLES = {
+  users: 'users',
+  products: 'products', 
+  gallery: 'gallery',
+  pricing: 'pricing',
+  homeContent: 'home_content'
+};
 
 // Zod schemas for validation
 export const loginSchema = z.object({
@@ -130,152 +77,262 @@ export const insertHomeContentSchema = z.object({
   isActive: z.boolean().optional(),
 });
 
-// Storage functions
+// Storage functions using Supabase
 export const storage = {
   // Authentication
   async getUserByUsername(username) {
-    const result = await db.select().from(users).where(eq(users.username, username));
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.users)
+      .select('*')
+      .eq('username', username)
+      .single();
+    
+    if (error && error.code !== 'PGRST116') { // PGRST116 is "no rows returned"
+      throw error;
+    }
+    return data;
   },
   
   async createUser(userData) {
-    const result = await db.insert(users).values(userData).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.users)
+      .insert(userData)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
 
   // Products
   async getProducts() {
-    return await db.select().from(products).orderBy(asc(products.sortOrder));
+    const { data, error } = await supabase
+      .from(TABLES.products)
+      .select('*')
+      .order('sort_order', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
   },
   
   async getProduct(id) {
-    const result = await db.select().from(products).where(eq(products.id, id));
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.products)
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error && error.code !== 'PGRST116') {
+      throw error;
+    }
+    return data;
   },
   
   async createProduct(product) {
-    const result = await db.insert(products).values(product).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.products)
+      .insert(product)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async updateProduct(id, product) {
-    const result = await db.update(products).set({
-      ...product,
-      updatedAt: new Date()
-    }).where(eq(products.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.products)
+      .update({ ...product, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async deleteProduct(id) {
-    await db.delete(products).where(eq(products.id, id));
+    const { error } = await supabase
+      .from(TABLES.products)
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
     return true;
   },
 
   // Gallery
   async getGalleryItems() {
-    return await db.select().from(gallery).orderBy(asc(gallery.sortOrder));
+    const { data, error } = await supabase
+      .from(TABLES.gallery)
+      .select('*')
+      .order('sort_order', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
   },
   
   async getGalleryItem(id) {
-    const result = await db.select().from(gallery).where(eq(gallery.id, id));
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.gallery)
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error && error.code !== 'PGRST116') {
+      throw error;
+    }
+    return data;
   },
   
   async createGalleryItem(item) {
-    const result = await db.insert(gallery).values(item).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.gallery)
+      .insert(item)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async updateGalleryItem(id, item) {
-    const result = await db.update(gallery).set({
-      ...item,
-      updatedAt: new Date()
-    }).where(eq(gallery.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.gallery)
+      .update({ ...item, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async deleteGalleryItem(id) {
-    await db.delete(gallery).where(eq(gallery.id, id));
+    const { error } = await supabase
+      .from(TABLES.gallery)
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
     return true;
   },
 
   // Pricing
   async getPricingItems() {
-    return await db.select().from(pricing).orderBy(asc(pricing.sortOrder));
+    const { data, error } = await supabase
+      .from(TABLES.pricing)
+      .select('*')
+      .order('sort_order', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
   },
   
   async getPricingItem(id) {
-    const result = await db.select().from(pricing).where(eq(pricing.id, id));
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.pricing)
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error && error.code !== 'PGRST116') {
+      throw error;
+    }
+    return data;
   },
   
   async createPricingItem(item) {
-    const result = await db.insert(pricing).values(item).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.pricing)
+      .insert(item)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async updatePricingItem(id, item) {
-    const result = await db.update(pricing).set({
-      ...item,
-      updatedAt: new Date()
-    }).where(eq(pricing.id, id)).returning();
-    return result[0];
+    const { data, error } = await supabase
+      .from(TABLES.pricing)
+      .update({ ...item, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async deletePricingItem(id) {
-    await db.delete(pricing).where(eq(pricing.id, id));
+    const { error } = await supabase
+      .from(TABLES.pricing)
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
     return true;
   },
 
   // Home Content
-  async getHomeContent() {
-    return await db.select().from(homeContent).orderBy(asc(homeContent.id));
-  },
-  
-  async getHomeContentItem(id) {
-    const result = await db.select().from(homeContent).where(eq(homeContent.id, id));
-    return result[0];
-  },
-  
-  async createHomeContentItem(item) {
-    const result = await db.insert(homeContent).values(item).returning();
-    return result[0];
-  },
-  
-  async updateHomeContentItem(id, item) {
-    const result = await db.update(homeContent).set({
-      ...item,
-      updatedAt: new Date()
-    }).where(eq(homeContent.id, id)).returning();
-    return result[0];
-  },
-  
-  async deleteHomeContentItem(id) {
-    await db.delete(homeContent).where(eq(homeContent.id, id));
-    return true;
-  },
-
-  // Aliases for API compatibility
   async getHomeContents() {
-    return this.getHomeContent();
+    const { data, error } = await supabase
+      .from(TABLES.homeContent)
+      .select('*')
+      .order('id', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
   },
   
   async getHomeContent(id) {
     if (id) {
-      return this.getHomeContentItem(id);
+      const { data, error } = await supabase
+        .from(TABLES.homeContent)
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+      return data;
+    } else {
+      return this.getHomeContents();
     }
-    return await db.select().from(homeContent).orderBy(asc(homeContent.id));
   },
   
   async createHomeContent(item) {
-    return this.createHomeContentItem(item);
+    const { data, error } = await supabase
+      .from(TABLES.homeContent)
+      .insert(item)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async updateHomeContent(id, item) {
-    return this.updateHomeContentItem(id, item);
+    const { data, error } = await supabase
+      .from(TABLES.homeContent)
+      .update({ ...item, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
   },
   
   async deleteHomeContent(id) {
-    return this.deleteHomeContentItem(id);
+    const { error } = await supabase
+      .from(TABLES.homeContent)
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+    return true;
   }
 }; 
