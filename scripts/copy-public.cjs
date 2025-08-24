@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const src = path.resolve(__dirname, '..', 'client', 'public');
-const dest = path.resolve(__dirname, '..', 'dist');
+const destRoot = path.resolve(__dirname, '..', 'dist');
+const destPublic = path.resolve(destRoot, 'public');
 
 function copyRecursive(srcDir, destDir) {
   if (!fs.existsSync(srcDir)) return;
@@ -21,8 +22,9 @@ function copyRecursive(srcDir, destDir) {
 }
 
 try {
-  copyRecursive(src, dest);
-  console.log(`Copied static public files from ${src} to ${dest}`);
+  copyRecursive(src, destRoot);
+  copyRecursive(src, destPublic);
+  console.log(`Copied static public files from ${src} to ${destRoot} and ${destPublic}`);
 } catch (err) {
   console.error('Error copying public files:', err);
   process.exit(1);
