@@ -1027,7 +1027,7 @@ export const Box = (): JSX.Element => {
                   <img 
                     src={serviceImages[1]} 
                     alt="Foot care spa" 
-                    className="w-20 h-16 object-cover rounded-full"
+                    className="w-16 h-16 object-cover rounded-full"
                   />
                 </div>
               </div>
@@ -1040,13 +1040,13 @@ export const Box = (): JSX.Element => {
             </Card>
 
             {/* Eyelash Extensions */}
-            <Card className="bg-gradient-to-br from-beige-50 to-beige-100 dark:from-gray-800 dark:to-gray-700 border-none shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center p-8 group">
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 bg-beige-500 rounded-full flex items-center justify-center group-hover:animate-bounce-gentle overflow-hidden">
+            <Card className="bg-gradient-to-br from-beige-50 to-beige-100 dark:from-gray-800 dark:to-gray-700 border-none shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center p-6 group overflow-hidden">
+              <div className="flex justify-center mb-4">
+                <div className="w-24 h-24 bg-beige-500 rounded-full flex items-center justify-center group-hover:animate-bounce-gentle overflow-hidden">
                   <img 
                     src={serviceImages[2]} 
                     alt="Eyelash extensions" 
-                    className="w-10 h-10 object-cover rounded-full"
+                    className="w-16 h-16 object-cover rounded-full"
                   />
                 </div>
               </div>
@@ -1059,13 +1059,13 @@ export const Box = (): JSX.Element => {
             </Card>
 
             {/* Waxing */}
-            <Card className="bg-gradient-to-br from-miuna-50 to-miuna-100 dark:from-gray-800 dark:to-gray-700 border-none shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center p-8 group">
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 bg-miuna-500 rounded-full flex items-center justify-center group-hover:animate-bounce-gentle overflow-hidden">
+            <Card className="bg-gradient-to-br from-miuna-50 to-miuna-100 dark:from-gray-800 dark:to-gray-700 border-none shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center p-6 group overflow-hidden">
+              <div className="flex justify-center mb-4">
+                <div className="w-24 h-24 bg-miuna-500 rounded-full flex items-center justify-center group-hover:animate-bounce-gentle overflow-hidden">
                   <img 
                     src={serviceImages[3]} 
                     alt="Waxing services" 
-                    className="w-10 h-10 object-cover rounded-full"
+                    className="w-16 h-16 object-cover rounded-full"
                   />
                 </div>
               </div>
