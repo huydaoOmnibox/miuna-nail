@@ -67,7 +67,7 @@ export const insertPricingSchema = z.object({
 });
 
 export const insertHomeContentSchema = z.object({
-  customerId: z.number().optional(),
+  customerId: z.number().default(1), // Default to customer 1
   section: z.string(),
   title: z.string().nullable().optional(),
   subtitle: z.string().nullable().optional(),
@@ -304,9 +304,21 @@ export const storage = {
   },
   
   async createHomeContent(item) {
+    // Map camelCase to snake_case for database
+    const dbItem = {
+      customer_id: item.customerId || 1,
+      section: item.section,
+      title: item.title,
+      subtitle: item.subtitle,
+      description: item.description,
+      content: item.content,
+      image: item.image,
+      is_active: item.isActive !== undefined ? item.isActive : true
+    };
+    
     const { data, error } = await supabase
       .from(TABLES.homeContent)
-      .insert(item)
+      .insert(dbItem)
       .select()
       .single();
     
@@ -315,9 +327,23 @@ export const storage = {
   },
   
   async updateHomeContent(id, item) {
+    // Map camelCase to snake_case for database
+    const updateData = {
+      updated_at: new Date().toISOString()
+    };
+    
+    if (item.customerId !== undefined) updateData.customer_id = item.customerId;
+    if (item.section !== undefined) updateData.section = item.section;
+    if (item.title !== undefined) updateData.title = item.title;
+    if (item.subtitle !== undefined) updateData.subtitle = item.subtitle;
+    if (item.description !== undefined) updateData.description = item.description;
+    if (item.content !== undefined) updateData.content = item.content;
+    if (item.image !== undefined) updateData.image = item.image;
+    if (item.isActive !== undefined) updateData.is_active = item.isActive;
+    
     const { data, error } = await supabase
       .from(TABLES.homeContent)
-      .update({ ...item, updated_at: new Date().toISOString() })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();
