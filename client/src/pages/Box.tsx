@@ -174,7 +174,7 @@ export const Box = (): JSX.Element => {
           description: "Premium Nagelstudio in Aarau, das außergewöhnliche Schönheitsdienstleistungen mit Qualität und Prestige bietet.",
                    contact: "Kontakt",
            openingHours: "Öffnungszeiten",
-           monday: "Montag - Freitag: 9:00-19:00",
+           monday: "Montag - Freitag: 9:00-19:00 ",
            saturday: "Samstag: 8:00-18:00",
            sunday: "Sonntag: Geschlossen",
            copyright: "© 2024 MiuNa Nails & Beauty Aarau. Alle Rechte vorbehalten."
