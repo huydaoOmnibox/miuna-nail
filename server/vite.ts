@@ -28,8 +28,30 @@ export async function setupVite(app: Express, server: Server) {
     allowedHosts: true as const,
   };
 
+  // vite.config can export a function (defineConfig(({mode}) => ({})))
+  // so ensure we call it to get the actual config object and guarantee
+  // the `root` points at the client folder so Vite resolves /src/... correctly.
+  let resolvedViteConfig: any = viteConfig;
+  if (typeof viteConfig === "function") {
+    // call with current NODE_ENV/mode to get the config object
+    const mode = process.env.NODE_ENV || "development";
+    // pass a full ConfigEnv-like object: command is 'serve' for dev
+    // support sync or async config functions
+    resolvedViteConfig = await Promise.resolve(
+      viteConfig({ command: "serve", mode }),
+    );
+  }
+
+  // ensure root is the client directory if not provided by the config
+  resolvedViteConfig = {
+    root: resolvedViteConfig && resolvedViteConfig.root
+      ? resolvedViteConfig.root
+      : path.resolve(__dirname, "..", "client"),
+    ...resolvedViteConfig,
+  };
+
   const vite = await createViteServer({
-    ...viteConfig,
+    ...resolvedViteConfig,
     configFile: false,
     customLogger: {
       ...viteLogger,

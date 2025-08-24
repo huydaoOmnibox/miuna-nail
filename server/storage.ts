@@ -356,7 +356,7 @@ export class SupabaseStorage implements IStorage {
   async getHomeContent(): Promise<HomeContent[]> {
     try {
       const { data, error } = await supabase
-        .from('homeContent')
+        .from('home_content')
         .select('*')
         .order('id', { ascending: true });
       
@@ -371,7 +371,7 @@ export class SupabaseStorage implements IStorage {
   async getHomeContentBySection(section: string): Promise<HomeContent | undefined> {
     try {
       const { data, error } = await supabase
-        .from('homeContent')
+        .from('home_content')
         .select('*')
         .eq('section', section)
         .single();
@@ -397,7 +397,7 @@ export class SupabaseStorage implements IStorage {
     };
     
     const { data, error } = await supabase
-      .from('homeContent')
+      .from('home_content')
       .insert(contentData)
       .select()
       .single();
@@ -421,7 +421,7 @@ export class SupabaseStorage implements IStorage {
     updateData.updatedAt = new Date();
     
     const { data, error } = await supabase
-      .from('homeContent')
+      .from('home_content')
       .update(updateData)
       .eq('id', id)
       .select()
@@ -433,7 +433,7 @@ export class SupabaseStorage implements IStorage {
 
   async deleteHomeContent(id: number): Promise<boolean> {
     const { error } = await supabase
-      .from('homeContent')
+      .from('home_content')
       .delete()
       .eq('id', id);
     
