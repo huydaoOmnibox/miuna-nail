@@ -6,11 +6,12 @@ import { Menu, X, Sparkles, Package, Loader2, Filter } from "lucide-react";
 import { Link } from "wouter";
 import logoPath from "@assets/logo.png";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { NO_IMAGE } from "@/lib/constants";
 import type { Product } from "@shared/schema";
 
 // Helper function to get image URL (proxy for Google Drive)
-const getImageUrl = (url: string | null): string => {
-  if (!url) return '';
+const getImageUrl = (url: string | null | undefined): string => {
+  if (!url) return NO_IMAGE;
   
   const convertedUrl = convertGoogleDriveUrl(url);
   
@@ -24,8 +25,8 @@ const getImageUrl = (url: string | null): string => {
 };
 
 // Helper function to convert Google Drive URLs to direct image URLs
-const convertGoogleDriveUrl = (url: string | null): string => {
-  if (!url) return '';
+const convertGoogleDriveUrl = (url: string | null | undefined): string => {
+  if (!url) return NO_IMAGE;
   
   // If it's already a direct Google Drive URL, return as is
   if (url.includes('drive.google.com/uc')) {

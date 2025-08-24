@@ -21,7 +21,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const originalResJson = res.json;
   res.json = function (bodyJson: any, ...args: any[]) {
     capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
+    // cast to any to allow forwarding additional args without TypeScript complaint
+    return (originalResJson as any).apply(res, [bodyJson, ...args]);
   };
 
   res.on("finish", () => {

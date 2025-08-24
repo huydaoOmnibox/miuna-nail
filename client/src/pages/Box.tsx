@@ -11,7 +11,7 @@ import { NO_IMAGE } from "@/lib/constants";
 import type { HomeContent } from "@shared/schema";
 
 // Helper function to convert Google Drive URLs to direct image URLs
-const convertGoogleDriveUrl = (url: string | null): string => {
+const convertGoogleDriveUrl = (url: string | null | undefined): string => {
   if (!url) return NO_IMAGE;
   
   // If it's already a direct Google Drive URL, return as is
@@ -29,7 +29,7 @@ const convertGoogleDriveUrl = (url: string | null): string => {
 };
 
 // Helper function to get image URL (proxy for Google Drive)
-const getImageUrl = (url: string | null): string => {
+const getImageUrl = (url: string | null | undefined): string => {
   if (!url) return NO_IMAGE;
   
   const convertedUrl = convertGoogleDriveUrl(url);

@@ -32,12 +32,13 @@ import {
 import { Link, useLocation } from "wouter";
 import logoPath from "@assets/logo.png";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { NO_IMAGE } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
 import type { Product, Gallery, Pricing, HomeContent } from "@shared/schema";
 
 // Helper function to convert Google Drive URLs to direct image URLs
-const convertGoogleDriveUrl = (url: string | null): string => {
-  if (!url) return '';
+const convertGoogleDriveUrl = (url: string | null | undefined): string => {
+  if (!url) return NO_IMAGE;
   
   // If it's already a direct Google Drive URL, return as is
   if (url.includes('drive.google.com/uc')) {
@@ -73,8 +74,8 @@ const formatPriceForBackend = (price: string): string => {
 const imageUrlCache = new Map<string, string>();
 
 // Helper function to get image URL (proxy for Google Drive) with caching
-const getImageUrl = (url: string | null): string => {
-  if (!url) return '';
+const getImageUrl = (url: string | null | undefined): string => {
+  if (!url) return NO_IMAGE;
   
   // Check cache first
   if (imageUrlCache.has(url)) {
