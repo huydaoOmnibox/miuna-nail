@@ -7,6 +7,9 @@ import { setupVite, serveStatic, log } from "./vite";
 const app = express();
 const server = createServer(app);
 
+// Set environment to development by default
+app.set("env", process.env.NODE_ENV || "development");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -55,8 +58,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
+    console.log("Setting up Vite development server...");
     await setupVite(app, server);
   } else {
+    console.log("Setting up static file serving...");
     serveStatic(app);
   }
 
@@ -65,6 +70,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     port,
     host: "127.0.0.1",
   }, () => {
-    log(`serving on port ${port}`);
+    log(`serving on port ${port} in ${app.get("env")} mode`);
   });
 })();

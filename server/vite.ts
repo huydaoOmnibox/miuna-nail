@@ -5,7 +5,9 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
+import { fileURLToPath } from "url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const viteLogger = createLogger();
 
 export function log(message: string, source = "express") {
@@ -40,9 +42,10 @@ export async function setupVite(app: Express, server: Server) {
     appType: "custom",
   });
 
+  // Apply Vite middleware first - this handles all source files
   app.use(vite.middlewares);
   
-  // Only handle non-API routes with the catch-all
+  // Only handle non-API routes and non-source file routes with the catch-all
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
 
@@ -51,9 +54,14 @@ export async function setupVite(app: Express, server: Server) {
       return next();
     }
 
+    // Skip source file requests - let Vite handle them
+    if (url.startsWith('/src/') || url.startsWith('/@vite/')) {
+      return next();
+    }
+
     try {
       const clientTemplate = path.resolve(
-        import.meta.dirname,
+        __dirname,
         "..",
         "client",
         "index.html",
@@ -75,7 +83,7 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
+  const distPath = path.resolve(__dirname, "public");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(

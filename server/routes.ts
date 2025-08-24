@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 // Node.js 22+ has built-in fetch
 
 // JWT secret from environment variable - required for production
-const JWT_SECRET = process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET || 'dev-fallback-key-not-for-production';
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-fallback-key-not-for-production';
 
 export async function registerRoutes(app: Express): Promise<Server | Express> {
   // Authentication routes
