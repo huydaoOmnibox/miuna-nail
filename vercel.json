@@ -4,18 +4,6 @@
   "outputDirectory": "dist/public",
   "installCommand": "npm install",
   "framework": "vite",
-  "env": {
-    "DATABASE_URL": "",
-    "SUPABASE_URL": "",
-    "SUPABASE_ANON_KEY": "",
-    "SUPABASE_SERVICE_ROLE_KEY": "",
-    "JWT_SECRET": "",
-    "SESSION_SECRET": "",
-    "API_BASE_URL": "",
-    "CORS_ORIGIN": "",
-    "NEXT_PUBLIC_GA_ID": "",
-    "NEXT_PUBLIC_SENTRY_DSN": ""
-  },
   "routes": [
     {
       "src": "/api/(.*)",
