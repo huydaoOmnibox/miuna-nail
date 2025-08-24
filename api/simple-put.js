@@ -8,47 +8,50 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Log all requests for debugging
-  console.log('=== TEST API DEBUG ===');
+  // Log the request for debugging
+  console.log('=== SIMPLE PUT API ===');
   console.log('Method:', req.method);
   console.log('URL:', req.url);
   console.log('Headers:', req.headers);
-  console.log('Query:', req.query);
-  console.log('Body:', req.body);
   console.log('=====================');
 
   if (req.method === 'GET') {
     return res.status(200).json({
-      message: "API is working!",
+      message: "Simple PUT API - GET request successful",
       timestamp: new Date().toISOString(),
-      env: process.env.NODE_ENV || 'development',
-      method: req.method,
-      url: req.url
+      method: req.method
     });
   }
 
   if (req.method === 'POST') {
     return res.status(200).json({
-      message: "POST request received",
+      message: "Simple PUT API - POST request successful",
       body: req.body,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      method: req.method
     });
   }
 
   if (req.method === 'PUT') {
     return res.status(200).json({
-      message: "PUT request received",
+      message: "Simple PUT API - PUT request successful!",
       body: req.body,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      method: req.method
     });
   }
 
   if (req.method === 'DELETE') {
     return res.status(200).json({
-      message: "DELETE request received",
-      timestamp: new Date().toISOString()
+      message: "Simple PUT API - DELETE request successful",
+      timestamp: new Date().toISOString(),
+      method: req.method
     });
   }
 
-  return res.status(405).json({ error: 'Method not allowed' });
+  return res.status(405).json({ 
+    error: 'Method not allowed',
+    allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    receivedMethod: req.method
+  });
 }
