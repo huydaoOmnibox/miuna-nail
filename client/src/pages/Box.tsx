@@ -109,7 +109,7 @@ export const Box = (): JSX.Element => {
         },
               servicesSection: {
           title: "Dienstleistungen & Preise",
-          ourServices: "Unsere Dienstleistungen",
+          ourServices: "Dienstleistungen",
           pricingPackages: "Preise & Pakete",
           nailCare: "Nagelpflege",
           nailCareDesc: "Neue Modellierung Gel/Acryl, Maniküre, Nageldesign, Shellac",
