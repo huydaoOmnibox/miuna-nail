@@ -427,29 +427,55 @@ export async function registerRoutes(app: Express): Promise<Server | Express> {
     }
 
     try {
-      const response = await fetch(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      // Normalize and attempt fetches. For Google Drive links we try a direct download variant if necessary.
+      const requestedUrl = decodeURIComponent(url);
+      const headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      } as Record<string,string>;
+
+      const tryFetch = async (fetchUrl: string) => {
+        const resp = await fetch(fetchUrl, { headers, redirect: 'follow' });
+        return resp;
+      };
+
+      let response = await tryFetch(requestedUrl);
+
+      // If the response isn't an image and the URL looks like Google Drive, try the download endpoint
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.startsWith('image/') && requestedUrl.includes('drive.google.com')) {
+        // attempt to extract file id and try uc?export=download
+        const idMatch = requestedUrl.match(/([?&]id=([^&]+))|\/d\/([^\/]+)\//);
+        const fileId = idMatch ? (idMatch[2] || idMatch[3]) : null;
+        if (fileId) {
+          const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+          try {
+            response = await tryFetch(downloadUrl);
+          } catch (err) {
+            console.error('Failed download-url fetch for drive file:', err);
+          }
         }
-      });
+      }
 
+      // Re-check
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        console.error('Proxy image fetch failed:', response.status, response.statusText);
+        return res.redirect('/api/placeholder-image');
       }
 
-      const contentType = response.headers.get('content-type');
-      if (!contentType?.startsWith('image/')) {
-        throw new Error('Not an image');
+      const finalContentType = response.headers.get('content-type') || '';
+      if (!finalContentType.startsWith('image/')) {
+        console.error('Proxy image fetch returned non-image content-type:', finalContentType);
+        return res.redirect('/api/placeholder-image');
       }
 
-      res.setHeader('Content-Type', contentType);
+      res.setHeader('Content-Type', finalContentType);
       res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
-      
       const imageBuffer = await response.arrayBuffer();
       res.send(Buffer.from(imageBuffer));
     } catch (error) {
       console.error('Proxy image error:', error);
-      res.status(500).json({ error: 'Failed to fetch image' });
+      // On any error, serve a placeholder image so the page doesn't break
+      return res.redirect('/api/placeholder-image');
     }
   });
 
