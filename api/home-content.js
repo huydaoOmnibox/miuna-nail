@@ -11,13 +11,25 @@ export default async (req, res) => {
   }
 
   try {
-    // Parse query parameters
+    // Parse URL to get ID from path or query parameters
     const url = new URL(req.url, `http://${req.headers.host}`);
-    const id = url.searchParams.get('id');
+    
+    // Extract ID from path (e.g., /api/home-content/12) or query params (?id=12)
+    let id = url.searchParams.get('id');
+    if (!id) {
+      // Try to extract from path - split by '/' and get the last segment
+      const pathSegments = url.pathname.split('/').filter(Boolean);
+      const lastSegment = pathSegments[pathSegments.length - 1];
+      if (lastSegment && !isNaN(parseInt(lastSegment))) {
+        id = lastSegment;
+      }
+    }
+    
     const isSingleItem = id && !isNaN(parseInt(id));
 
     console.log('Home Content URL:', req.url);
-    console.log('Query ID:', id);
+    console.log('Path segments:', url.pathname.split('/'));
+    console.log('Extracted ID:', id);
     console.log('Is single item:', isSingleItem);
 
     if (req.method === 'GET') {
