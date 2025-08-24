@@ -5,9 +5,16 @@
   "installCommand": "npm install",
   "framework": "vite",
   "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs@18"
-    }
+    "api/test.js": {},
+    "api/debug.js": {},
+    "api/simple-put.js": {},
+    "api/products.js": {},
+    "api/gallery.js": {},
+    "api/pricing.js": {},
+    "api/home-content.js": {},
+    "api/home-content/[id].js": {},
+    "api/login.js": {},
+    "api/[...catchall].js": {}
   },
 
   "rewrites": [
