@@ -44,7 +44,7 @@ const getImageUrl = (url: string | null | undefined): string => {
 };
 
 export const Box = (): JSX.Element => {
-  const [activeTab, setActiveTab] = useState<'services' | 'pricing'>('services');
+  const [activeTab, setActiveTab] = useState<'services' | 'pricing'>('pricing');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [homeContent, setHomeContent] = useState<HomeContent[]>([]);
@@ -502,11 +502,6 @@ export const Box = (): JSX.Element => {
                   {t.nav.gallery}
                 </button>
               </Link>
-              <Link href="/products">
-                <button className="text-beige-700 dark:text-beige-300 hover:text-beige-500 dark:hover:text-beige-400 font-medium transition-colors duration-200">
-                  {t.nav.products}
-                </button>
-              </Link>
               <Link href="/contact">
                 <button className="text-beige-700 dark:text-beige-300 hover:text-beige-500 dark:hover:text-beige-400 font-medium transition-colors duration-200">
                   {t.nav.contact}
@@ -592,14 +587,6 @@ export const Box = (): JSX.Element => {
                     className="text-beige-700 dark:text-beige-300 hover:text-beige-500 dark:hover:text-beige-400 font-medium text-left transition-colors duration-200"
                 >
                     {t.nav.gallery}
-                </button>
-                </Link>
-                <Link href="/products">
-                <button 
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-beige-700 dark:text-beige-300 hover:text-beige-500 dark:hover:text-beige-400 font-medium text-left transition-colors duration-200"
-                >
-                    {t.nav.products}
                 </button>
                 </Link>
                 <Link href="/contact">
@@ -734,210 +721,6 @@ export const Box = (): JSX.Element => {
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Us Section */}
-      <section id="contact" className="py-12 md:py-20 relative overflow-hidden min-h-screen">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img 
-            src="/background-1.png" 
-            alt="About section background" 
-            className="w-54 h-64 md:w-1/2 md:h-full object-cover absolute left-1/2 top-1/3 md:top-0 md:left-2/3 transform -translate-x-1/2 -translate-y-1/2 md:transform-none rounded-lg md:rounded-none"
-            onError={(e) => {
-              console.error('Failed to load background image:', e);
-              // Fallback to gradient if image fails to load
-              e.currentTarget.style.display = 'none';
-            }}
-          />
-          {/* Fallback gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-beige-50 via-beige-100 to-beige-200 dark:from-gray-800 dark:to-gray-700"></div>
-          <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80"></div>
-        </div>
-        
-
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="animate-fade-in-up">
-                          <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-8">
-              {t.about.title}
-            </h2>
-              <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-8 leading-relaxed">
-                {t.about.description}
-              </p>
-              
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#A5C185] rounded-full flex items-center justify-center shadow-lg">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">{t.about.address}</h3>
-                    <p className="text-neutral-600 dark:text-neutral-400">{t.about.addressValue}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#A5C185] rounded-full flex items-center justify-center shadow-lg">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">{t.about.hotline}</h3>
-                    <p className="text-neutral-600 dark:text-neutral-400">{t.about.hotlineValue}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#A5C185] rounded-full flex items-center justify-center shadow-lg">
-                    <Clock className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">{t.about.openingHours}</h3>
-                    <p className="text-neutral-600 dark:text-neutral-400">{t.about.openingHoursValue}</p>
-                  </div>
-                </div>
-              </div>
-              
-                            <Button 
-                onClick={() => window.open('https://wa.me/', '_blank')}
-                className="mt-8 mb-8 md:mb-0 bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-              >
-                {t.about.contactUs}
-              </Button>
-            </div>
-            
-            <div className="relative animate-fade-in-up animation-delay-200 mt-8 md:mt-0">
-                <div className="w-full h-64 md:h-96 bg-gradient-to-br from-beige-200 to-beige-300 rounded-3xl shadow-2xl overflow-hidden">
-                <img 
-                  src={getImageUrl(aboutSection?.image)} 
-                  alt="Elegant spa room with modern décor and relaxing ambiance" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              {/* Elegant overlay with spa room details */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-3xl"></div>
-              <div className="absolute bottom-6 left-6 text-white">
-                <h3 className="text-2xl font-bold mb-2 drop-shadow-lg">
-                  {aboutSection?.title || "Image Title"}
-                </h3>
-                <p className="text-beige-100 drop-shadow-md">
-                  {aboutSection?.subtitle || "Image Subtitle"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* You're in Safe Hands Section */}
-      <section className="py-20 bg-[#F0F7ED]/60 dark:bg-gray-900/60">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <img 
-                src={getImageUrl(safetySection?.image)}
-                alt="Professional nail technician at work" 
-                className="w-full h-96 object-cover rounded-2xl shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-beige-500 text-white p-6 rounded-2xl shadow-xl">
-                <div className="text-4xl font-bold">{safetySection?.title || ""}</div>
-                <div className="text-sm uppercase tracking-wide">{safetySection?.subtitle || t.safety.experience}</div>
-              </div>
-            </div>
-            
-            <div>
-              <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-6 leading-tight">
-                {t.safety.title}
-              </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                {t.safety.description1}
-              </p>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                {t.safety.description2}
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-beige-100 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-beige-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-beige-800 dark:text-beige-200 text-lg">{t.safety.licensed}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">{t.safety.licensedDesc}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Lookbook Section */}
-      <section className="py-20 bg-gradient-to-r from-beige-50 to-beige-100 dark:from-gray-800 dark:to-gray-700">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-6">{t.lookbook.title}</h2>
-            <p className="text-xl text-beige-600 dark:text-beige-300 max-w-3xl mx-auto">
-              {t.lookbook.subtitle}
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {lookbookItems.map((item, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
-                <img 
-                  src={item.image}
-                  alt={`Lookbook ${index + 1}: ${item.title}`} 
-                  className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
-                  <div className="absolute bottom-6 left-6 text-white">
-                    <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-beige-100">{item.subtitle}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="text-center mt-12">
-            <Button className="bg-beige-500 hover:bg-beige-600 text-white px-12 py-4 rounded-full text-lg font-semibold">
-              {t.lookbook.viewGallery}
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Look Good Feel Better Section */}
-      <section className="py-20 bg-[#F5F2EF]/60 dark:bg-gray-900/60">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-6 leading-tight">
-                {t.feelBetter.title}
-              </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                {t.feelBetter.description1}
-              </p>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                {t.feelBetter.description2}
-              </p>
-              <Button className="bg-beige-500 hover:bg-beige-600 text-white px-8 py-3 rounded-full font-semibold">
-                {t.feelBetter.bookNow}
-              </Button>
-            </div>
-            
-            <div className="relative">
-              <img 
-                src={getImageUrl(feelBetterSection?.image)}
-                alt="Relaxing salon interior" 
-                className="w-full h-96 object-cover rounded-2xl shadow-2xl"
-              />
-              <div className="absolute -top-6 -left-6 bg-beige-500 text-white p-6 rounded-2xl shadow-xl">
-                <div className="text-4xl font-bold">{feelBetterSection?.title || ""}</div>
-                <div className="text-sm uppercase tracking-wide">{feelBetterSection?.subtitle || ""}</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -1343,19 +1126,6 @@ export const Box = (): JSX.Element => {
                 </div>
               </div>
 
-              {/* Special Package Box - Centered Below Menu Boxes */}
-              <div className="flex justify-center">
-                <div className="bg-gradient-to-br from-miuna-500 to-miuna-600 text-white rounded-lg shadow-lg p-8 border-2 border-dashed border-miuna-400 max-w-md">
-                  <div className="text-center">
-                    <h3 className="text-2xl font-ephesis mb-4">Special Package</h3>
-                    <p className="mb-4">Exclusive offers coming soon</p>
-                    <div className="text-3xl font-bold mb-4">Public Soon</div>
-                    <Button className="bg-white text-miuna-500 hover:bg-miuna-50 font-semibold px-6 py-2 rounded-full transition-all duration-300 hover:scale-105">
-                      {t.servicesSection.bookSave}
-                    </Button>
-                  </div>
-                </div>
-              </div>
             </div>
             )}
 
@@ -1366,183 +1136,176 @@ export const Box = (): JSX.Element => {
       </section>
 
 
-      {/* Featured Products Section */}
-      <section className="py-20 bg-[#F0F7ED]/60 dark:bg-gray-900/60 relative overflow-hidden">
-        {/* Diagonal Stripes Background */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(200, 168, 118, 0.1) 10px, rgba(200, 168, 118, 0.1) 20px)`
-          }}></div>
+
+
+
+
+      {/* About Us Section */}
+      <section id="contact" className="py-12 md:py-20 relative overflow-hidden min-h-screen">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="/background-1.png" 
+            alt="About section background" 
+            className="w-54 h-64 md:w-1/2 md:h-full object-cover absolute left-1/2 top-1/3 md:top-0 md:left-2/3 transform -translate-x-1/2 -translate-y-1/2 md:transform-none rounded-lg md:rounded-none"
+            onError={(e) => {
+              console.error('Failed to load background image:', e);
+              // Fallback to gradient if image fails to load
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          {/* Fallback gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-beige-50 via-beige-100 to-beige-200 dark:from-gray-800 dark:to-gray-700"></div>
+          <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80"></div>
         </div>
         
-        {/* Floating Product Icons */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-24 left-16 w-8 h-8 bg-[#C3DFB7] rounded-full animate-bounce-gentle opacity-20"></div>
-          <div className="absolute top-16 right-20 w-6 h-6 bg-[#A5C185] rounded-full animate-float opacity-25"></div>
-          <div className="absolute bottom-32 left-24 w-10 h-10 bg-[#87BF6F] rounded-full animate-pulse-gentle opacity-20"></div>
-          <div className="absolute bottom-16 right-16 w-7 h-7 bg-[#C3DFB7] rounded-full animate-bounce-gentle animation-delay-1000 opacity-30"></div>
-          <div className="absolute top-1/2 left-12 w-5 h-5 bg-[#A5C185] rounded-full animate-float animation-delay-2000 opacity-25"></div>
-          <div className="absolute top-1/3 right-12 w-9 h-9 bg-[#87BF6F] rounded-full animate-pulse-gentle animation-delay-3000 opacity-20"></div>
-        </div>
+
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-                      <h2 className="text-5xl font-ephesis font-bold text-miuna-600 text-center mb-16">{t.products.title}</h2>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {/* Nail Polish Collection */}
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-              <div className="aspect-square bg-gradient-to-br from-beige-100 to-beige-200 overflow-hidden">
-                <img 
-                  src={productsImages[0]} 
-                  alt="Premium nail polish collection" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="animate-fade-in-up">
+                          <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-8">
+              {t.about.title}
+            </h2>
+              <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-8 leading-relaxed">
+                {t.about.description}
+              </p>
+              
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#A5C185] rounded-full flex items-center justify-center shadow-lg">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">{t.about.address}</h3>
+                    <p className="text-neutral-600 dark:text-neutral-400">{t.about.addressValue}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#A5C185] rounded-full flex items-center justify-center shadow-lg">
+                    <Phone className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">{t.about.hotline}</h3>
+                    <p className="text-neutral-600 dark:text-neutral-400">{t.about.hotlineValue}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#A5C185] rounded-full flex items-center justify-center shadow-lg">
+                    <Clock className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">{t.about.openingHours}</h3>
+                    <p className="text-neutral-600 dark:text-neutral-400">{t.about.openingHoursValue}</p>
+                  </div>
+                </div>
               </div>
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <h3 className="font-bold text-lg">{t.products.nailPolish}</h3>
-                <p className="text-sm opacity-90">{t.products.nailPolishDesc}</p>
-              </div>
+              
+                            <Button 
+                onClick={() => window.open('https://wa.me/', '_blank')}
+                className="mt-8 mb-8 md:mb-0 bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+              >
+                {t.about.contactUs}
+              </Button>
             </div>
             
-            {/* Nail Care Tools */}
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-              <div className="aspect-square bg-gradient-to-br from-beige-100 to-beige-200 overflow-hidden">
+            <div className="relative animate-fade-in-up animation-delay-200 mt-8 md:mt-0">
+                <div className="w-full h-64 md:h-96 bg-gradient-to-br from-beige-200 to-beige-300 rounded-3xl shadow-2xl overflow-hidden">
                 <img 
-                  src={productsImages[1]} 
-                  alt="Professional nail care tools" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  src={getImageUrl(aboutSection?.image)} 
+                  alt="Elegant spa room with modern décor and relaxing ambiance" 
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <h3 className="font-bold text-lg">{t.products.careTools}</h3>
-                <p className="text-sm opacity-90">{t.products.careToolsDesc}</p>
+              {/* Elegant overlay with spa room details */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-3xl"></div>
+              <div className="absolute bottom-6 left-6 text-white">
+                <h3 className="text-2xl font-bold mb-2 drop-shadow-lg">
+                  {aboutSection?.title || "Image Title"}
+                </h3>
+                <p className="text-beige-100 drop-shadow-md">
+                  {aboutSection?.subtitle || "Image Subtitle"}
+                </p>
               </div>
             </div>
-
-            {/* Gel Polish Collection */}
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-              <div className="aspect-square bg-gradient-to-br from-beige-100 to-beige-200 overflow-hidden">
-                <img 
-                  src={productsImages[2]} 
-                  alt="Gel polish collection" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <h3 className="font-bold text-lg">{t.products.gelPolish}</h3>
-                <p className="text-sm opacity-90">{t.products.gelPolishDesc}</p>
-              </div>
-            </div>
-
-            {/* Nail Art Accessories */}
-            <div className="relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-              <div className="aspect-square bg-gradient-to-br from-orange-100 to-amber-200 overflow-hidden">
-                <img 
-                  src={productsImages[3]} 
-                  alt="Nail art accessories and decorations" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <h3 className="font-bold text-lg">{t.products.artSupplies}</h3>
-                <p className="text-sm opacity-90">{t.products.artSuppliesDesc}</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <Button className="mt-8 mb-8 md:mb-0 bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
-              {t.products.booking}
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* Styled by Us, Worn by You Section */}
-      <section className="py-20 bg-beige-50 dark:bg-gray-800">
+      {/* You're in Safe Hands Section */}
+      <section className="py-20 bg-[#F0F7ED]/60 dark:bg-gray-900/60">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <img 
+                src={getImageUrl(safetySection?.image)}
+                alt="Professional nail technician at work" 
+                className="w-full h-96 object-cover rounded-2xl shadow-2xl"
+              />
+              <div className="absolute -bottom-6 -right-6 bg-beige-500 text-white p-6 rounded-2xl shadow-xl">
+                <div className="text-4xl font-bold">{safetySection?.title || ""}</div>
+                <div className="text-sm uppercase tracking-wide">{safetySection?.subtitle || t.safety.experience}</div>
+              </div>
+            </div>
+            
+            <div>
+              <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-6 leading-tight">
+                {t.safety.title}
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                {t.safety.description1}
+              </p>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                {t.safety.description2}
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-beige-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-8 h-8 text-beige-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-beige-800 dark:text-beige-200 text-lg">{t.safety.licensed}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{t.safety.licensedDesc}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lookbook Section */}
+      <section className="py-20 bg-gradient-to-r from-beige-50 to-beige-100 dark:from-gray-800 dark:to-gray-700">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-4">{t.styledBy.title}</h2>
-            <p className="text-xl text-beige-600 dark:text-beige-300">{t.styledBy.subtitle}</p>
+            <h2 className="text-5xl font-ephesis font-bold text-miuna-600 mb-6">{t.lookbook.title}</h2>
+            <p className="text-xl text-beige-600 dark:text-beige-300 max-w-3xl mx-auto">
+              {t.lookbook.subtitle}
+            </p>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-6">
-            <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-              <img 
-                src={styledByImages[0]}
-                alt="Client nail work showcase" 
-                className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">@sarah_nails</p>
+          <div className="grid md:grid-cols-3 gap-8">
+            {lookbookItems.map((item, index) => (
+              <div key={index} className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src={item.image}
+                  alt={`Lookbook ${index + 1}: ${item.title}`} 
+                  className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
+                    <p className="text-beige-100">{item.subtitle}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-              <img 
-                src={styledByImages[1]}
-                alt="Pedicure results showcase" 
-                className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">@emma_beauty</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-              <img 
-                src={styledByImages[2]}
-                alt="Nail art showcase" 
-                className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">@lisa_style</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-              <img 
-                src={styledByImages[3]}
-                alt="Classic nail style showcase" 
-                className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">@anna_nails</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
           
           <div className="text-center mt-12">
-            <p className="text-beige-600 dark:text-beige-400 mb-4">{t.styledBy.tagUs}</p>
-            <h3 className="text-xl font-bold text-beige-800 dark:text-beige-200 mb-2">{t.styledBy.followUs}</h3>
-            <div className="flex justify-center gap-4">
-              <Button
-                onClick={() => window.open('https://www.instagram.com/', '_blank')}
-                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
-                title="Follow on Instagram"
-              >
-                <Instagram className="w-6 h-6" />
-              </Button>
-              <Button
-                onClick={() => window.open('https://www.facebook.com/', '_blank')}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
-                title="Follow on Facebook"
-              >
-                <Facebook className="w-6 h-6" />
-              </Button>
-            </div>
+            <Button className="bg-beige-500 hover:bg-beige-600 text-white px-12 py-4 rounded-full text-lg font-semibold">
+              {t.lookbook.viewGallery}
+            </Button>
           </div>
         </div>
       </section>
