@@ -40,6 +40,10 @@ export const Contact = (): JSX.Element => {
           title: "Telefoon",
           number: "+41 76 482 89 08"
         },
+        phone2: {
+          title: "Telefoon",
+          number: "+41 62 558 98 88"
+        },
         email: {
           title: "E-mail",
           address: "miuna@gmail.com"
@@ -94,6 +98,10 @@ export const Contact = (): JSX.Element => {
         phone: {
           title: "Phone",
           number: "+41 76 482 89 08"
+        },
+        phone2: {
+          title: "Phone",
+          number: "+41 62 558 98 88"
         },
         email: {
           title: "Email",
@@ -403,16 +411,18 @@ export const Contact = (): JSX.Element => {
                 {/* Email */}
                 <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300">
                   <CardContent className="p-6">
-                    <div className="flex items-start gap-3">
-                      <div className="bg-beige-100 p-2 rounded-full flex-shrink-0">
-                        <Mail className="w-5 h-5 text-beige-600" />
+                    <div className="flex items-center gap-3">
+                      <div className="bg-beige-100 p-2 rounded-full cursor-pointer hover:bg-beige-200 transition-all duration-300"
+                           onClick={() => window.open('https://wa.me/41764828908', '_blank')}>
+                        <Phone className="w-5 h-5 text-beige-600" />
                       </div>
-                      <div className="min-w-0">
+                      <div className="cursor-pointer hover:text-beige-600 transition-colors duration-300"
+                           onClick={() => window.open('https://wa.me/41764828908', '_blank')}>
                         <h3 className="font-semibold text-beige-800 dark:text-beige-200 text-sm">
-                          {t.contactInfo.email.title}
+                          {t.contactInfo.phone2.title}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm break-all">
-                          {t.contactInfo.email.address}
+                        <p className="text-gray-600 dark:text-gray-300 text-sm">
+                          {t.contactInfo.phone2.number}
                         </p>
                       </div>
                     </div>

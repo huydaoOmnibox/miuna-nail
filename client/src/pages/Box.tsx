@@ -1377,6 +1377,10 @@ export const Box = (): JSX.Element => {
                   <Phone className="w-5 h-5" />
                   <span className="text-beige-100">+41 76 482 89 08</span>
                 </div>
+                                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5" />
+                  <span className="text-beige-100">+41 62 558 98 88</span>
+                </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5" />
                   <span className="text-beige-100">Tellistrasse 67, 5004 Aarau</span>
