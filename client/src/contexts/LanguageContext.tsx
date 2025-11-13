@@ -13,21 +13,21 @@ interface LanguageProviderProps {
   children: ReactNode;
 }
 
+const LANGUAGE_STORAGE_KEY = 'nails-language';
+
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const [currentLanguage, setCurrentLanguageState] = useState<Language>('de');
 
-  // Load language from localStorage on mount
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('nails-language') as Language;
-    if (savedLanguage && (savedLanguage === 'de' || savedLanguage === 'en')) {
+    const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language | null;
+    if (savedLanguage === 'de' || savedLanguage === 'en') {
       setCurrentLanguageState(savedLanguage);
     }
   }, []);
 
-  // Save language to localStorage when it changes
   const setCurrentLanguage = (language: Language) => {
     setCurrentLanguageState(language);
-    localStorage.setItem('miuna-language', language);
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
   };
 
   return (

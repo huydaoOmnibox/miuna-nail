@@ -127,6 +127,10 @@ export const Gallery = (): JSX.Element => {
     setMobileMenuOpen(false);
   };
 
+  const handlePhoneContact = () => {
+    window.location.href = 'tel:+41764828908';
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Navigation Bar */}
@@ -166,7 +170,7 @@ export const Gallery = (): JSX.Element => {
               </Link>
               
               <Button 
-                onClick={() => window.open('https://wa.me/31628699827', '_blank')}
+                onClick={handlePhoneContact}
                 className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold"
               >
                 {t.nav.bookNow}
@@ -252,7 +256,7 @@ export const Gallery = (): JSX.Element => {
                 </Link>
                 
                 <Button 
-                  onClick={() => window.open('https://wa.me/31628699827', '_blank')}
+                  onClick={handlePhoneContact}
                   className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold w-full"
                 >
                   {t.nav.bookNow}
@@ -419,7 +423,7 @@ export const Gallery = (): JSX.Element => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
-              onClick={() => window.open('https://wa.me/31628699827', '_blank')}
+              onClick={handlePhoneContact}
             >
               <Sparkles className="w-5 h-5 mr-2" />
               {currentLanguage === 'de' ? 'TERMIN BUCHEN' : 'BOOK APPOINTMENT'}

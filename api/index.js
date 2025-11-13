@@ -7,8 +7,8 @@ const JWT_SECRET = process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET || 
 // Helper function to set CORS headers
 function setCORSHeaders(res, req, allowCredentials = false) {
   const allowedOrigins = [
-    'https://www.nailsofthenetherlands.nl',
-    'https://nailsofthenetherlands.nl',
+    'https://www.miunanails.com',
+    'https://miunanails.nl',
     'http://localhost:3000'
   ];
   

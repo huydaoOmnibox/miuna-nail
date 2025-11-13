@@ -193,7 +193,7 @@ export const Box = (): JSX.Element => {
       },
       hero: {
         title: "Chic & Elegant",
-        subtitle: "A modern nail salon in Leeuwarden",
+        subtitle: "A modern nail salon in Aarau",
         description: "Quality - Prestige - Responsibility define our brand",
         bookAppointment: "BOOK APPOINTMENT"
       },
@@ -465,6 +465,10 @@ export const Box = (): JSX.Element => {
     setMobileMenuOpen(false);
   };
 
+  const handlePhoneContact = () => {
+    window.location.href = 'tel:+41764828908';
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden">
       {/* Navigation Bar */}
@@ -509,7 +513,7 @@ export const Box = (): JSX.Element => {
               </Link>
               
               <Button 
-                onClick={() => window.open('https://wa.me/', '_blank')}
+                onClick={handlePhoneContact}
                 className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold"
               >
                 {t.nav.bookNow}
@@ -599,7 +603,7 @@ export const Box = (): JSX.Element => {
                 </Link>
                 
                 <Button 
-                  onClick={() => window.open('https://wa.me/', '_blank')}
+                  onClick={handlePhoneContact}
                   className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold w-full"
                 >
                   {t.nav.bookNow}
@@ -698,7 +702,7 @@ export const Box = (): JSX.Element => {
           </p>
           
           <Button 
-            onClick={() => window.open('https://wa.me/', '_blank')}
+            onClick={handlePhoneContact}
             size="lg" 
             className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 px-6 sm:px-8 md:px-10 py-2 sm:py-3 text-base sm:text-lg rounded-full animate-fade-in-up animation-delay-400"
           >
@@ -1203,8 +1207,8 @@ export const Box = (): JSX.Element => {
                 </div>
               </div>
               
-                            <Button 
-                onClick={() => window.open('https://wa.me/', '_blank')}
+              <Button 
+                onClick={handlePhoneContact}
                 className="mt-8 mb-8 md:mb-0 bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
               >
                 {t.about.contactUs}

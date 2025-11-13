@@ -157,7 +157,12 @@ export const Contact = (): JSX.Element => {
     { day: currentLanguage === 'de' ? 'Sonntag' : 'Sunday', hours: currentLanguage === 'de' ? 'Geschlossen' : 'Closed', open: false }
   ];
 
-  const googleMapsUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2389.123456789!2d5.7946!3d53.2012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c9cd26e2c4c2ff%3A0x1234567890!2sWirdumerdijk%2029%2C%208911%20CC%20Leeuwarden%2C%20Netherlands!5e0!3m2!1sen!2snl!4v1234567890!5m2!1sen!2snl";
+  const googleMapsUrl = "https://www.google.com/maps?q=Tellistrasse+67,+5004+Aarau&output=embed";
+
+  const handlePhoneContact = (phoneNumber: string) => {
+    const sanitizedNumber = phoneNumber.replace(/\s+/g, '');
+    window.location.href = `tel:${sanitizedNumber}`;
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -198,7 +203,7 @@ export const Contact = (): JSX.Element => {
               </Link>
               
               <Button 
-                onClick={() => window.open('https://wa.me/41764828908', '_blank')}
+                onClick={() => handlePhoneContact('+41 76 482 89 08')}
                 className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-6 py-2 rounded-full font-semibold"
               >
                 {t.nav.bookNow}
@@ -284,7 +289,7 @@ export const Contact = (): JSX.Element => {
                 </Link>
                 
                 <Button 
-                  onClick={() => window.open('https://wa.me/41764828908', '_blank')}
+                  onClick={() => handlePhoneContact('+41 76 482 89 08')}
                   className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-miuna-600 px-6 py-2 rounded-full font-semibold w-full"
                 >
                   {t.nav.bookNow}
@@ -392,11 +397,11 @@ export const Contact = (): JSX.Element => {
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3">
                       <div className="bg-beige-100 p-2 rounded-full cursor-pointer hover:bg-beige-200 transition-all duration-300"
-                           onClick={() => window.open('https://wa.me/41764828908', '_blank')}>
+                           onClick={() => handlePhoneContact(t.contactInfo.phone.number)}>
                         <Phone className="w-5 h-5 text-beige-600" />
                       </div>
                       <div className="cursor-pointer hover:text-beige-600 transition-colors duration-300"
-                           onClick={() => window.open('https://wa.me/41764828908', '_blank')}>
+                           onClick={() => handlePhoneContact(t.contactInfo.phone.number)}>
                         <h3 className="font-semibold text-beige-800 dark:text-beige-200 text-sm">
                           {t.contactInfo.phone.title}
                         </h3>
@@ -413,11 +418,11 @@ export const Contact = (): JSX.Element => {
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3">
                       <div className="bg-beige-100 p-2 rounded-full cursor-pointer hover:bg-beige-200 transition-all duration-300"
-                           onClick={() => window.open('https://wa.me/41764828908', '_blank')}>
+                           onClick={() => handlePhoneContact(t.contactInfo.phone2.number)}>
                         <Phone className="w-5 h-5 text-beige-600" />
                       </div>
                       <div className="cursor-pointer hover:text-beige-600 transition-colors duration-300"
-                           onClick={() => window.open('https://wa.me/41764828908', '_blank')}>
+                           onClick={() => handlePhoneContact(t.contactInfo.phone2.number)}>
                         <h3 className="font-semibold text-beige-800 dark:text-beige-200 text-sm">
                           {t.contactInfo.phone2.title}
                         </h3>
@@ -486,7 +491,7 @@ export const Contact = (): JSX.Element => {
                       {t.bookingInfo.emergency}
                     </p>
                     <Button 
-                      onClick={() => window.open('https://wa.me/41764828908', '_blank')}
+                      onClick={() => handlePhoneContact(t.contactInfo.phone.number)}
                       className="w-full bg-gradient-to-r from-beige-600 to-beige-700 hover:from-beige-700 hover:to-beige-800 text-white py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
                     >
                       <Calendar className="w-5 h-5 mr-2" />
@@ -569,7 +574,7 @@ export const Contact = (): JSX.Element => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              onClick={() => window.open('https://wa.me/41764828908', '_blank')}
+              onClick={() => handlePhoneContact(t.contactInfo.phone.number)}
               className="bg-gradient-to-r from-beige-500 to-beige-600 hover:from-beige-600 hover:to-beige-700 text-white px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
             >
               <Sparkles className="w-5 h-5 mr-2" />
