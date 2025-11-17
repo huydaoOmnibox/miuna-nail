@@ -46,7 +46,7 @@ export const Contact = (): JSX.Element => {
         },
         email: {
           title: "E-mail",
-          address: "miuna@gmail.com"
+          address: "miunanailsbeauty@gmail.com"
         },
         hours: {
           title: "Openingstijden",
@@ -105,7 +105,7 @@ export const Contact = (): JSX.Element => {
         },
         email: {
           title: "Email",
-          address: "info@miuna.ch"
+          address: "miunanailsbeauty@gmail.com"
         },
         hours: {
           title: "Opening Hours",
